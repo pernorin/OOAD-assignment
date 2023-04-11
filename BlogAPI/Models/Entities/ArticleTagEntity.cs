@@ -1,5 +1,8 @@
-﻿namespace BlogAPI.Models.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlogAPI.Models.Entities
 {
+    [Index(nameof(Tag), IsUnique = true)]
     public class ArticleTagEntity
     {
         public int Id { get; set; }

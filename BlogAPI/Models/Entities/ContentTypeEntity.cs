@@ -1,5 +1,8 @@
-﻿namespace BlogAPI.Models.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlogAPI.Models.Entities
 {
+    [Index(nameof(ContentType), IsUnique = true)]
     public class ContentTypeEntity
     {
         public int Id { get; set; }
