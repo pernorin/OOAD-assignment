@@ -1,24 +1,39 @@
-﻿namespace BlogAPI.Models.Entities
+﻿using BlogAPI.Factories;
+using BlogAPI.Models.Abstract;
+using BlogAPI.Models.DTOs;
+
+namespace BlogAPI.Models.Entities
 {
-    /*
-     id
-     datum
-     artikeltext
-     tag? (flera men valfritt?)
-     kategori (en -> många) (eller content type)
-     författare (många -> många)
-     */
-    public class ArticleEntity
+
+    public class ArticleEntity : ArticleAbstract
     {
         public Guid Id { get; set; }
-        public string ArticleTitle { get; set; } = null!;
-        public string ArticleText { get; set; } = null!;
+        
         public DateTime Published { get; set; }
 
         public int ContentTypeId { get; set; }
         public ContentTypeEntity ContentType { get; set; } = null!;
 
-        public ICollection<ArticleAuthorEntity> ArticleAuthors { get; set; } = null!;
-        public ICollection<ArticleTagEntity>? ArticleTags { get; set; }
+
+        public int ArticleAuthorId { get; set; }
+        public ArticleAuthorEntity ArticleAuthor { get; set; } = null!;
+
+        public int? ArticleTagId { get; set; }
+        public ArticleTagEntity? ArticleTag { get; set; }
+        
+        public static implicit operator ArticleRes(ArticleEntity entity)
+        {
+            var res = ArticleFactory.CreateArticleRes();
+
+            res.ArticleTitle = entity.ArticleTitle;
+            res.ArticleText = entity.ArticleText;
+            res.Published = entity.Published;
+            res.Author = entity.ArticleAuthor.FullName;
+            res.ContentType = entity.ContentType.ContentType;
+            res.Tag = entity.ArticleTag?.Tag;
+            return res;
+
+        }
+
     }
 }

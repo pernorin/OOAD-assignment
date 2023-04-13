@@ -22,36 +22,6 @@ namespace BlogAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ArticleAuthorEntityArticleEntity", b =>
-                {
-                    b.Property<int>("ArticleAuthorsId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("AuthorArticlesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArticleAuthorsId", "AuthorArticlesId");
-
-                    b.HasIndex("AuthorArticlesId");
-
-                    b.ToTable("ArticleAuthorEntityArticleEntity");
-                });
-
-            modelBuilder.Entity("ArticleEntityArticleTagEntity", b =>
-                {
-                    b.Property<int>("ArticleTagsId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TagArticlesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArticleTagsId", "TagArticlesId");
-
-                    b.HasIndex("TagArticlesId");
-
-                    b.ToTable("ArticleEntityArticleTagEntity");
-                });
-
             modelBuilder.Entity("BlogAPI.Models.Entities.ArticleAuthorEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -79,6 +49,12 @@ namespace BlogAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ArticleAuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArticleTagId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ArticleText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -94,6 +70,10 @@ namespace BlogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleAuthorId");
+
+                    b.HasIndex("ArticleTagId");
 
                     b.HasIndex("ContentTypeId");
 
@@ -140,45 +120,39 @@ namespace BlogAPI.Migrations
                     b.ToTable("ContentTypes");
                 });
 
-            modelBuilder.Entity("ArticleAuthorEntityArticleEntity", b =>
-                {
-                    b.HasOne("BlogAPI.Models.Entities.ArticleAuthorEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ArticleAuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BlogAPI.Models.Entities.ArticleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorArticlesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ArticleEntityArticleTagEntity", b =>
-                {
-                    b.HasOne("BlogAPI.Models.Entities.ArticleTagEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ArticleTagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BlogAPI.Models.Entities.ArticleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("TagArticlesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BlogAPI.Models.Entities.ArticleEntity", b =>
                 {
+                    b.HasOne("BlogAPI.Models.Entities.ArticleAuthorEntity", "ArticleAuthor")
+                        .WithMany("AuthorArticles")
+                        .HasForeignKey("ArticleAuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlogAPI.Models.Entities.ArticleTagEntity", "ArticleTag")
+                        .WithMany("TagArticles")
+                        .HasForeignKey("ArticleTagId");
+
                     b.HasOne("BlogAPI.Models.Entities.ContentTypeEntity", "ContentType")
                         .WithMany("Articles")
                         .HasForeignKey("ContentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ArticleAuthor");
+
+                    b.Navigation("ArticleTag");
+
                     b.Navigation("ContentType");
+                });
+
+            modelBuilder.Entity("BlogAPI.Models.Entities.ArticleAuthorEntity", b =>
+                {
+                    b.Navigation("AuthorArticles");
+                });
+
+            modelBuilder.Entity("BlogAPI.Models.Entities.ArticleTagEntity", b =>
+                {
+                    b.Navigation("TagArticles");
                 });
 
             modelBuilder.Entity("BlogAPI.Models.Entities.ContentTypeEntity", b =>

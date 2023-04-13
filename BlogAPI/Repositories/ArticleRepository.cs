@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Contexts;
 using BlogAPI.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Repositories
 {
@@ -14,9 +15,20 @@ namespace BlogAPI.Repositories
 
         public async Task<ArticleEntity> CreateAsync(ArticleEntity entity)
         {
-            _context.Add(entity);
+            _context.Articles.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
+            
         }
+        public async Task<IEnumerable<ArticleEntity>> GetAllAsync()
+        {
+            return await _context.Articles.ToListAsync();
+        }
+
+        /*
+         GetAsync
+        UpdateAsync
+        DeleteAsync
+         */
     }
 }

@@ -1,4 +1,6 @@
 using BlogAPI.Contexts;
+using BlogAPI.Repositories;
+using BlogAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
-
+builder.Services.AddScoped<ArticleRepository>();
+builder.Services.AddScoped<ArticleAuthorRepository>();
+builder.Services.AddScoped<ArticleTagRepository>();
+builder.Services.AddScoped<ContentTypeRepository>();
+builder.Services.AddScoped<ArticleService>();
 
 
 

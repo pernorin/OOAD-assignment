@@ -7,5 +7,6 @@ namespace BlogAPI.Controllers
     [ApiController]
     public class ContentTypesController : ControllerBase
     {
+        //Skippa service och gå direkt på repo?
     }
 }

@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DTOs\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Factories\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <Folder Include="Models\DTOs\" />
   </ItemGroup>
 
 </Project>
