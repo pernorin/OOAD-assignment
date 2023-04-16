@@ -1,6 +1,8 @@
 ﻿using BlogAPI.Contexts;
+using BlogAPI.Factories;
 using BlogAPI.Models.DTOs;
 using BlogAPI.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Repositories
 {
@@ -14,8 +16,24 @@ namespace BlogAPI.Repositories
         }
 
         public async Task<ArticleAuthorEntity> CreateAsync(ArticleReq req)
-        {
+        {                       
+            _context.ArticleAuthors.Add(req);
+            await _context.SaveChangesAsync();
 
+            return req;
+        }
+
+        
+        public async Task<int> GetAsync(ArticleReq req)
+        {
+            
+            var author = await _context.ArticleAuthors.FirstOrDefaultAsync(x => x.FirstName == req.AuthorFirstName && x.LastName == req.AuthorLastName);
+            if (author != null) 
+            {
+                return author.Id;
+            }
+            var res = await CreateAsync(req);
+            return res.Id;
         }
     }
 

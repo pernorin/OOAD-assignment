@@ -29,7 +29,9 @@ namespace BlogAPI.Models.Entities
             res.ArticleText = entity.ArticleText;
             res.Published = entity.Published;
             res.Author = entity.ArticleAuthor.FullName;
+            //res.Author = "Pelle";
             res.ContentType = entity.ContentType.ContentType;
+            //res.ContentType = "Bajs";
             res.Tag = entity.ArticleTag?.Tag;
             return res;
 

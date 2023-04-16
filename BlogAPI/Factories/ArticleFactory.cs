@@ -18,5 +18,9 @@ namespace BlogAPI.Factories
                 Published = DateTime.Now
             };
         }
+        public static List<ArticleRes> CreateArticleList()
+        {
+            return new List<ArticleRes>();
+        }
     }
 }

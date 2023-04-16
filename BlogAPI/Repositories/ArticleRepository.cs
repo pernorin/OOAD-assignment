@@ -22,11 +22,17 @@ namespace BlogAPI.Repositories
         }
         public async Task<IEnumerable<ArticleEntity>> GetAllAsync()
         {
-            return await _context.Articles.ToListAsync();
+            return await _context.Articles.Include(x => x.ArticleAuthor).Include(x => x.ContentType).Include(x => x.ArticleTag).ToListAsync();
         }
 
+        public async Task<ArticleEntity> GetAsync(Guid id)
+        {
+            return await _context.Articles.Include(x => x.ArticleAuthor).Include(x => x.ContentType).Include(x => x.ArticleTag).FirstOrDefaultAsync(x => x.Id == id) ?? null!;
+        }
+
+
+
         /*
-         GetAsync
         UpdateAsync
         DeleteAsync
          */
