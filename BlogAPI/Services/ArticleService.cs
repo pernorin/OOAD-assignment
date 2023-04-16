@@ -25,12 +25,15 @@ namespace BlogAPI.Services
         public async Task CreateAsync(ArticleReq req)
         {   
             var tagId = await _tagRepo.GetAsync(req);
+            var authorId = await _authorRepo.GetAsync(req);
 
             var entity = ArticleFactory.CreateArticleEntity();
 
             entity.ArticleTitle = req.ArticleTitle;
             entity.ArticleText = req.ArticleText;
-            entity.ArticleAuthorId = await _authorRepo.GetAsync(req);
+            entity.ContentTypeId = req.ContentTypeId;
+            //entity.ArticleAuthorId = await _authorRepo.GetAsync(req);
+            entity.ArticleAuthorId = authorId;
 
             if (tagId != 0)
             {

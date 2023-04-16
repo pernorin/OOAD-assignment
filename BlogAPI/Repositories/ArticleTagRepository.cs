@@ -1,6 +1,7 @@
 ﻿using BlogAPI.Contexts;
 using BlogAPI.Models.DTOs;
 using BlogAPI.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Repositories
@@ -21,6 +22,15 @@ namespace BlogAPI.Repositories
 
             return req;
         }
+
+        //public async Task<int> CreateAsync(ArticleReq req)
+        //{
+        //    _context.ArticleTags.Add(req);
+        //    await _context.SaveChangesAsync();
+
+        //    return req.Id;
+        //}
+
         public async Task<int> GetAsync(ArticleReq req)
         {
             if(req.Tag != null) { 

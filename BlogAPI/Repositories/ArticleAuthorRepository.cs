@@ -16,14 +16,21 @@ namespace BlogAPI.Repositories
         }
 
         public async Task<ArticleAuthorEntity> CreateAsync(ArticleReq req)
-        {                       
+        {
             _context.ArticleAuthors.Add(req);
             await _context.SaveChangesAsync();
 
             return req;
         }
 
-        
+        //public async Task<int> CreateAsync(ArticleReq req)
+        //{
+        //    _context.ArticleAuthors.Add(req);
+        //    var id = await _context.SaveChangesAsync();
+
+        //    return id;
+        //}
+
         public async Task<int> GetAsync(ArticleReq req)
         {
             
